@@ -1,0 +1,17 @@
+
+DotNetSolidPrinciples/bin/Debug/
+
+DotNetSolidPrinciples/obj/Debug/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/net20/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/net35/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/net40/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/net45/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/netstandard1\.0/
+
+packages/Newtonsoft\.Json\.10\.0\.3/lib/netstandard1\.3/Newtonsoft\.Json\.dll
+packages
