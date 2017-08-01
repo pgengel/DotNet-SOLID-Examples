@@ -15,3 +15,9 @@ packages/Newtonsoft\.Json\.10\.0\.3/lib/netstandard1\.0/
 
 packages/Newtonsoft\.Json\.10\.0\.3/lib/netstandard1\.3/Newtonsoft\.Json\.dll
 packages
+
+*.dll
+
+FileGenerator/bin/Debug/
+
+FileGenerator/obj/Debug/
