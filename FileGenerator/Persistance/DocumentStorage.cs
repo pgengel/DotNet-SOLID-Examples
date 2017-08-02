@@ -50,7 +50,7 @@ namespace FileGenerator.Persistance
 			}
 			catch (Exception)
 			{
-				return false;
+				throw new AccessViolationException();
 			}
 		}
 	}
@@ -110,7 +110,7 @@ namespace FileGenerator.Persistance
 			}
 			catch (Exception)
 			{
-				return false;
+				throw new AccessViolationException();
 			}
 		}
 	}

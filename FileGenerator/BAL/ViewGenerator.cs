@@ -27,24 +27,31 @@ namespace FileGenerator.BAL
 			//exec the proc
 			List<View> fileContents = new List<View>();
 
-			using (var conn = _connectionFactory.Open(connectionString))
+			try
 			{
-				var p = new DynamicParameters();
-				foreach (SchemaTableRecord record in records)
+				using (var conn = _connectionFactory.Open(connectionString))
 				{
-					p.Add("@SchemaName", record.SchemaName);
-					p.Add("@TableName", record.TableName);
-					p.Add("@ViewName", dbType: DbType.String, direction: ParameterDirection.Output);
-					p.Add("@ViewTable", dbType: DbType.String, direction: ParameterDirection.Output);
-					conn.Query<int>(ProcBuildViewForTable, p);
-					fileContents.Add(new View
+					var p = new DynamicParameters();
+					foreach (SchemaTableRecord record in records)
 					{
-						FileContent = p.Get<string>("@ViewTable"),
-						FileName = p.Get<string>("@ViewName")
-					});
+						p.Add("@SchemaName", record.SchemaName);
+						p.Add("@TableName", record.TableName);
+						p.Add("@ViewName", dbType: DbType.String, direction: ParameterDirection.Output);
+						p.Add("@ViewTable", dbType: DbType.String, direction: ParameterDirection.Output);
+						conn.Query<int>(ProcBuildViewForTable, p);
+						fileContents.Add(new View
+						{
+							FileContent = p.Get<string>("@ViewTable"),
+							FileName = p.Get<string>("@ViewName")
+						});
+					}
 				}
+				return fileContents;
 			}
-			return fileContents;
+			catch (Exception e)
+			{
+				throw new AccessViolationException();
+			}
 		}
 	}
 }
