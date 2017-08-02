@@ -6,9 +6,9 @@ using FileGenerator.Models;
 
 namespace FileGenerator.Persistance
 {
-	interface IDocumentStorage
+	public interface IDocumentStorage
 	{
-		List<SchemaTableNameDocument> ReadDocument(string fileName);
+		List<SchemaTableRecord> ReadDocument(string fileName);
 		void PersistDocument(string fileContent, string targetFileName);
 	}
 }
