@@ -16,15 +16,13 @@ namespace FileGenerator.BAL
 {
 	public class FileGenerator
 	{
-		private const string connectionString = "server=gamingdb1\\inst2; database=casino; user id=sa; password=!@#$%A1";
-		internal const string ProcBuildViewForTable = "PII.pr_BuildViewForTable @SchemaName, @TableName, @ViewTable";
 		private readonly IDocumentStorage _documentStorage;
-		private readonly IDbConnectionFactory _connectionFactory;
-		
-		public FileGenerator(IDocumentStorage documentStorage, IDbConnectionFactory connectionFactory)
+		private readonly IViewGenerator _viewGenerator;
+
+		public FileGenerator(IDocumentStorage documentStorage, IViewGenerator viewGenerator)
 		{
 			_documentStorage = documentStorage;
-			_connectionFactory = connectionFactory;
+			_viewGenerator = viewGenerator;
 		}
 		public bool GenerateFile(string sourceFileName, string targetFileName)
 		{
@@ -39,25 +37,11 @@ namespace FileGenerator.BAL
 				return false;
 			}
 
-			//exec the proc
-			string fileContent = "";
-
-			using (var conn = _connectionFactory.Open(connectionString))
-			{
-				var p = new DynamicParameters();
-				foreach (SchemaTableRecord record in records)
-				{
-					p.Add("@SchemaName", record.SchemaName);
-					p.Add("@TableName", record.TableName);
-					p.Add("@ViewTable", dbType: DbType.String, direction: ParameterDirection.Output);
-					conn.Query<int>(ProcBuildViewForTable, p);
-					fileContent = p.Get<string>("@ViewTable");
-				}
-			}
+			string fileContent = _viewGenerator.GenerateSqlView(records);
 
 			try
 			{
-				
+
 				_documentStorage.PersistDocument(fileContent, targetFileName);
 			}
 			catch (AccessViolationException)
@@ -67,6 +51,7 @@ namespace FileGenerator.BAL
 
 			return true;
 		}
+
 	}
 
 }

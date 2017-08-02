@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BAL\FileGenerator.cs" />
+    <Compile Include="BAL\IViewGenerator.cs" />
+    <Compile Include="BAL\ViewGenerator.cs" />
     <Compile Include="Models\SchemaTableRecord.cs" />
     <Compile Include="Persistance\DataAccessLayer.cs" />
     <Compile Include="Persistance\DocumentStorage.cs" />
