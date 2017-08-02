@@ -24,7 +24,6 @@ namespace FileGenerator.Persistance
 
 			try
 			{
-				// Read sample data from CSV file
 				using (CsvReader reader = new CsvReader(new StreamReader(File.OpenRead(fileName))))
 				{
 					List<SchemaTableRecord> records = reader.GetRecords<SchemaTableRecord>().ToList();
@@ -38,19 +37,20 @@ namespace FileGenerator.Persistance
 			}
 		}
 
-		public void PersistDocument(string fileContent, string targetFileName)
+		public bool PersistDocument(View view, string targetLocation)
 		{
 			try
 			{
-				using (var sw = new StreamWriter(File.Open(targetFileName, FileMode.Create, FileAccess.Write)))
+				using (var sw = new StreamWriter(File.Open(targetLocation + view.FileName, FileMode.Create, FileAccess.Write)))
 				{
-					sw.Write(fileContent);
+					sw.Write(view.FileContent);
 					sw.Close();
 				}
+				return true;
 			}
 			catch (Exception)
 			{
-				throw new AccessViolationException();
+				return false;
 			}
 		}
 	}
@@ -60,10 +60,10 @@ namespace FileGenerator.Persistance
 		public List<SchemaTableRecord> ReadDocument(string fileName)
 		{
 
-				if (!File.Exists(fileName))
-				{
-					throw new FileNotFoundException();
-				}
+			if (!File.Exists(fileName))
+			{
+				throw new FileNotFoundException();
+			}
 
 			try
 			{
@@ -96,19 +96,21 @@ namespace FileGenerator.Persistance
 
 		}
 
-		public void PersistDocument(string fileContent, string targetFileName)
+		public bool PersistDocument(View view, string targetLocation)
 		{
 			try
 			{
-				using (var sw = new StreamWriter(File.Open(targetFileName, FileMode.Create, FileAccess.Write)))
+				using (var sw = new StreamWriter(File.Open(targetLocation + view.FileName, FileMode.Create, FileAccess.Write)))
 				{
-					sw.Write(fileContent);
+					sw.Write(view.FileContent);
 					sw.Close();
 				}
+
+				return true;
 			}
 			catch (Exception)
 			{
-				throw new AccessViolationException();
+				return false;
 			}
 		}
 	}

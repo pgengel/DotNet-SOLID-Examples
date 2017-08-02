@@ -59,6 +59,7 @@
     <Compile Include="BAL\IViewGenerator.cs" />
     <Compile Include="BAL\ViewGenerator.cs" />
     <Compile Include="Models\SchemaTableRecord.cs" />
+    <Compile Include="Models\View.cs" />
     <Compile Include="Persistance\DataAccessLayer.cs" />
     <Compile Include="Persistance\DocumentStorage.cs" />
     <Compile Include="Persistance\Factory\IDbConnectionFactory.cs" />

@@ -5,6 +5,6 @@ namespace FileGenerator.BAL
 {
 	public interface IViewGenerator
 	{
-		string GenerateSqlView(List<SchemaTableRecord> records);
+		List<View> GenerateSqlView(List<SchemaTableRecord> records);
 	}
 }

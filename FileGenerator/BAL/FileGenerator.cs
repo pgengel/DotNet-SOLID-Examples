@@ -24,34 +24,26 @@ namespace FileGenerator.BAL
 			_documentStorage = documentStorage;
 			_viewGenerator = viewGenerator;
 		}
-		public bool GenerateFile(string sourceFileName, string targetFileName)
+		public bool GenerateFile(string sourceLocationFileName, string targetLocation)
 		{
-			List<SchemaTableRecord> records;
-
 			try
 			{
-				records = _documentStorage.ReadDocument(sourceFileName);
+				var records = _documentStorage.ReadDocument(sourceLocationFileName);
+
+				List<View> views = _viewGenerator.GenerateSqlView(records);
+
+				foreach (var view in views)
+				{
+					_documentStorage.PersistDocument(view, targetLocation);
+				}
+
+				return true;
 			}
-			catch (FileNotFoundException)
+
+			catch (Exception)
 			{
 				return false;
 			}
-
-			string fileContent = _viewGenerator.GenerateSqlView(records);
-
-			try
-			{
-
-				_documentStorage.PersistDocument(fileContent, targetFileName);
-			}
-			catch (AccessViolationException)
-			{
-				return false;
-			}
-
-			return true;
 		}
-
 	}
-
 }
