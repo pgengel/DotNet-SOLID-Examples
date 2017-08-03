@@ -60,7 +60,7 @@
     <Compile Include="BAL\IViewGenerator.cs" />
     <Compile Include="BAL\ViewGenerator.cs" />
     <Compile Include="Models\Record.cs" />
-    <Compile Include="Models\View.cs" />
+    <Compile Include="Models\SqlView.cs" />
     <Compile Include="Persistance\DocumentStorage.cs" />
     <Compile Include="Persistance\Factory\IDbConnectionFactory.cs" />
     <Compile Include="Persistance\Factory\SqlDbConnectionFactory.cs" />

@@ -23,10 +23,10 @@ namespace FileGenerator.BAL
 			_connectionFactory = connectionFactory;
 		}
 
-		public List<View> GenerateSqlViews(List<Record> records)
+		public List<SqlView> GenerateSqlViews(List<Record> records)
 		{
 			//exec the proc
-			List<View> fileContents = new List<View>();
+			List<SqlView> fileContents = new List<SqlView>();
 
 			try
 			{
@@ -40,7 +40,7 @@ namespace FileGenerator.BAL
 						p.Add("@FileName", dbType: DbType.String, direction: ParameterDirection.Output);
 						p.Add("@FileContent", dbType: DbType.String, direction: ParameterDirection.Output);
 						conn.Query<int>(ProcBuildViewForTable, p);
-						fileContents.Add(new View
+						fileContents.Add(new SqlView
 						{
 							FileContent = p.Get<string>("@FileContent"),
 							FileName = p.Get<string>("@FileName")

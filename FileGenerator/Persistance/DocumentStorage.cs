@@ -6,10 +6,6 @@ using CsvHelper;
 using FileGenerator.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-
 
 namespace FileGenerator.Persistance
 {
@@ -37,13 +33,13 @@ namespace FileGenerator.Persistance
 			}
 		}
 
-		public bool PersistDocument(View view, string targetLocation)
+		public bool PersistDocument(SqlView sqlView, string targetLocation)
 		{
 			try
 			{
-				using (var sw = new StreamWriter(File.Open(targetLocation + view.FileName, FileMode.Create, FileAccess.Write)))
+				using (var sw = new StreamWriter(File.Open(targetLocation + sqlView.FileName, FileMode.Create, FileAccess.Write)))
 				{
-					sw.Write(view.FileContent);
+					sw.Write(sqlView.FileContent);
 					sw.Close();
 				}
 				return true;
@@ -96,13 +92,13 @@ namespace FileGenerator.Persistance
 
 		}
 
-		public bool PersistDocument(View view, string targetLocation)
+		public bool PersistDocument(SqlView sqlView, string targetLocation)
 		{
 			try
 			{
-				using (var sw = new StreamWriter(File.Open(targetLocation + view.FileName, FileMode.Create, FileAccess.Write)))
+				using (var sw = new StreamWriter(File.Open(targetLocation + sqlView.FileName, FileMode.Create, FileAccess.Write)))
 				{
-					sw.Write(view.FileContent);
+					sw.Write(sqlView.FileContent);
 					sw.Close();
 				}
 				return true;

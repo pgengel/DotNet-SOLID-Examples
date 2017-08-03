@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileGenerator.Models
 {
-	public class View
+	public class SqlView
 	{
 		public string FileName { get; set; }
 		public string FileContent { get; set; }

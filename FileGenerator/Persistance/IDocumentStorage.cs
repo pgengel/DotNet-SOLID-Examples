@@ -9,6 +9,6 @@ namespace FileGenerator.Persistance
 	public interface IDocumentStorage
 	{
 		List<Record> ReadDocument(string fileName);
-		bool PersistDocument(View view, string targetLocation);
+		bool PersistDocument(SqlView sqlView, string targetLocation);
 	}
 }

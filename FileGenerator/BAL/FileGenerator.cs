@@ -30,7 +30,7 @@ namespace FileGenerator.BAL
 			{
 				var records = _documentStorage.ReadDocument(sourceLocationFileName);
 
-				List<View> views = _viewGenerator.GenerateSqlViews(records);
+				List<SqlView> views = _viewGenerator.GenerateSqlViews(records);
 
 				foreach (var view in views)
 				{
