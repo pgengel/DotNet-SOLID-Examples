@@ -15,7 +15,7 @@ namespace FileGenerator.Persistance
 {
 	class CsvDocumentStorage : IDocumentStorage
 	{
-		public List<SchemaTableRecord> ReadDocument(string fileName)
+		public List<Record> ReadDocument(string fileName)
 		{
 			if (!File.Exists(fileName))
 			{
@@ -26,7 +26,7 @@ namespace FileGenerator.Persistance
 			{
 				using (CsvReader reader = new CsvReader(new StreamReader(File.OpenRead(fileName))))
 				{
-					List<SchemaTableRecord> records = reader.GetRecords<SchemaTableRecord>().ToList();
+					List<Record> records = reader.GetRecords<Record>().ToList();
 					return records;
 				}
 
@@ -57,7 +57,7 @@ namespace FileGenerator.Persistance
 
 	class JsonDocumentStorage : IDocumentStorage
 	{
-		public List<SchemaTableRecord> ReadDocument(string fileName)
+		public List<Record> ReadDocument(string fileName)
 		{
 
 			if (!File.Exists(fileName))
@@ -69,7 +69,7 @@ namespace FileGenerator.Persistance
 			{
 				using (var reader = new JsonTextReader(new StreamReader(File.OpenRead(fileName))))
 				{
-					List<SchemaTableRecord> schemaTableNames = new List<SchemaTableRecord>();
+					List<Record> schemaTableNames = new List<Record>();
 					while (reader.Read())
 					{
 						if (reader.TokenType == JsonToken.StartObject)
@@ -77,7 +77,7 @@ namespace FileGenerator.Persistance
 							// Load object from the stream
 							var schemaTable = JObject.Load(reader);
 						
-							schemaTableNames.Add(new SchemaTableRecord
+							schemaTableNames.Add(new Record
 							{
 								TableName = schemaTable.Values<string>("schema").ToString(),
 								SchemaName = schemaTable.Values<string>("table").ToString()
@@ -105,7 +105,6 @@ namespace FileGenerator.Persistance
 					sw.Write(view.FileContent);
 					sw.Close();
 				}
-
 				return true;
 			}
 			catch (Exception)

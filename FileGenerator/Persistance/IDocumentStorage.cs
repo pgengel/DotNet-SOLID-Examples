@@ -8,7 +8,7 @@ namespace FileGenerator.Persistance
 {
 	public interface IDocumentStorage
 	{
-		List<SchemaTableRecord> ReadDocument(string fileName);
+		List<Record> ReadDocument(string fileName);
 		bool PersistDocument(View view, string targetLocation);
 	}
 }

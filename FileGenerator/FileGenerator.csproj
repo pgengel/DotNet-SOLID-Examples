@@ -45,6 +45,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,9 +59,8 @@
     <Compile Include="BAL\FileGenerator.cs" />
     <Compile Include="BAL\IViewGenerator.cs" />
     <Compile Include="BAL\ViewGenerator.cs" />
-    <Compile Include="Models\SchemaTableRecord.cs" />
+    <Compile Include="Models\Record.cs" />
     <Compile Include="Models\View.cs" />
-    <Compile Include="Persistance\DataAccessLayer.cs" />
     <Compile Include="Persistance\DocumentStorage.cs" />
     <Compile Include="Persistance\Factory\IDbConnectionFactory.cs" />
     <Compile Include="Persistance\Factory\SqlDbConnectionFactory.cs" />

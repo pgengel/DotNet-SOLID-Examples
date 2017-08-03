@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,8 @@ namespace FileGenerator.BAL
 {
 	public class ViewGenerator : IViewGenerator
 	{
-		private const string connectionString = "server=gamingdb1\\inst2; database=casino; user id=sa; password=!@#$%A1";
-		internal const string ProcBuildViewForTable = "PII.pr_BuildViewForTable @SchemaName, @TableName, @ViewName, @ViewTable";
+	  private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+	  internal const string ProcBuildViewForTable = "PII.pr_BuildViewForTable @SchemaName, @TableName, @ViewName, @ViewTable";
 
 		private readonly IDbConnectionFactory _connectionFactory;
 
@@ -22,17 +23,17 @@ namespace FileGenerator.BAL
 			_connectionFactory = connectionFactory;
 		}
 
-		public List<View> GenerateSqlView(List<SchemaTableRecord> records)
+		public List<View> GenerateSqlViews(List<Record> records)
 		{
 			//exec the proc
 			List<View> fileContents = new List<View>();
 
 			try
 			{
-				using (var conn = _connectionFactory.Open(connectionString))
+				using (var conn = _connectionFactory.Open(ConnectionString))
 				{
 					var p = new DynamicParameters();
-					foreach (SchemaTableRecord record in records)
+					foreach (Record record in records)
 					{
 						p.Add("@SchemaName", record.SchemaName);
 						p.Add("@TableName", record.TableName);
