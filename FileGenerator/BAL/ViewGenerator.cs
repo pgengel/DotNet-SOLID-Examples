@@ -14,7 +14,7 @@ namespace FileGenerator.BAL
 	public class ViewGenerator : IViewGenerator
 	{
 	  private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-	  internal const string ProcBuildViewForTable = "PII.pr_BuildViewForTable @SchemaName, @TableName, @ViewName, @ViewTable";
+	  internal const string ProcBuildViewForTable = "PII.pr_BuildViewForObject @SchemaName, @ObjectName, @FileName, @FileContent";
 
 		private readonly IDbConnectionFactory _connectionFactory;
 
@@ -36,14 +36,14 @@ namespace FileGenerator.BAL
 					foreach (Record record in records)
 					{
 						p.Add("@SchemaName", record.SchemaName);
-						p.Add("@TableName", record.TableName);
-						p.Add("@ViewName", dbType: DbType.String, direction: ParameterDirection.Output);
-						p.Add("@ViewTable", dbType: DbType.String, direction: ParameterDirection.Output);
+						p.Add("@ObjectName", record.TableName);
+						p.Add("@FileName", dbType: DbType.String, direction: ParameterDirection.Output);
+						p.Add("@FileContent", dbType: DbType.String, direction: ParameterDirection.Output);
 						conn.Query<int>(ProcBuildViewForTable, p);
 						fileContents.Add(new View
 						{
-							FileContent = p.Get<string>("@ViewTable"),
-							FileName = p.Get<string>("@ViewName")
+							FileContent = p.Get<string>("@FileContent"),
+							FileName = p.Get<string>("@FileName")
 						});
 					}
 				}
