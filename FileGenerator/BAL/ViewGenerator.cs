@@ -11,8 +11,7 @@ namespace FileGenerator.BAL
 	public class ViewGenerator : IViewGenerator
 	{
 	  private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-	  internal const string ProcBuildViewForTable = "pii.pr_BuildViewForObject";
-	  //internal const string ProcBuildViewForTable = "dbo.pr_BuildViewForObject @Schema, @ObjectName, @FileName, @FileContent";
+	  internal const string ProcBuildViewForTable = "dbo.pr_BuildViewForObject";
 
 		private readonly IDbConnectionFactory _connectionFactory;
 
@@ -31,18 +30,22 @@ namespace FileGenerator.BAL
 				using (var conn = _connectionFactory.Open(ConnectionString))
 				{
 					var p = new DynamicParameters();
-					foreach (Record record in records)
+				  foreach (Record record in records)
 					{
 						p.Add("@SchemaName", record.Schema);
 						p.Add("@ObjectName", record.Table);
 						p.Add("@FileName", dbType: DbType.String, direction: ParameterDirection.Output, size:4000);
 						p.Add("@FileContent", dbType: DbType.String, direction: ParameterDirection.Output, size: 4000);
-						conn.Query<int>(ProcBuildViewForTable, p, commandType: CommandType.StoredProcedure);
-            fileContents.Add(new SqlView
-						{
-							FileContent = p.Get<string>("@FileContent"),
-							FileName = p.Get<string>("@FileName")
-						});
+					  p.Add("@SchemaTableExists", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+            conn.Query<int>(ProcBuildViewForTable, p, commandType: CommandType.StoredProcedure);
+					  if (p.Get<int>("@SchemaTableExists") == 0)
+					  {
+					    fileContents.Add(new SqlView
+					    {
+					      FileContent = p.Get<string>("@FileContent"),
+					      FileName = p.Get<string>("@FileName")
+					    });
+            }
 					}
 				}
 				return fileContents;

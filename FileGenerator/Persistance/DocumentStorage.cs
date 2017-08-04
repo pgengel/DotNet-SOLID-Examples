@@ -22,10 +22,10 @@ namespace FileGenerator.Persistance
 			{
 				using (CsvReader reader = new CsvReader(new StreamReader(File.OpenRead(fileName))))
 				{
-					List<Record> records = reader.GetRecords<Record>().ToList();
+				  reader.Configuration.IgnoreHeaderWhiteSpace = true;
+          var records = reader.GetRecords<Record>().ToList();
 					return records;
 				}
-
 			}
 			catch (Exception e)
 			{
@@ -61,7 +61,6 @@ namespace FileGenerator.Persistance
 	{
 		public List<Record> ReadDocument(string fileName)
 		{
-
 			if (!File.Exists(fileName))
 			{
 				throw new FileNotFoundException();
