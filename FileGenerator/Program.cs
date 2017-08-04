@@ -11,9 +11,9 @@ namespace FileGenerator
     static void Main(string[] args)
     {
 
-      var piiList = new List<string>(ConfigurationManager.AppSettings["pii_exclusions"].Split(new char[] { ';' }));
-      //  BAL.FileGenerator fileGenerator = new BAL.FileGenerator(new CsvDocumentStorage(), new ViewGenerator(new SqlDbConnectionFactory()));
-      //fileGenerator.GenerateFile("", "");
+      //var piiList = new List<string>(ConfigurationManager.AppSettings["pii_exclusions"].Split(new char[] { ';' }));
+      BAL.FileGenerator fileGenerator = new BAL.FileGenerator(new CsvDocumentStorage(), new ViewGenerator(new SqlDbConnectionFactory()));
+      fileGenerator.GenerateFile(@"C:\Users\pieteren\Desktop\FileGeneratorTestFiles\pii.csv", @"C:\Users\pieteren\Desktop\FileGeneratorTestFiles");
     }
   }
 }

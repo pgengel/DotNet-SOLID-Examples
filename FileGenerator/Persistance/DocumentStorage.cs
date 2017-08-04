@@ -27,7 +27,7 @@ namespace FileGenerator.Persistance
 				}
 
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 				throw new AccessViolationException();
 			}
@@ -35,14 +35,20 @@ namespace FileGenerator.Persistance
 
 		public bool PersistDocument(SqlView sqlView, string targetLocation)
 		{
-			try
+		  Directory.CreateDirectory(targetLocation);
+		  var targetFileLocation = Path.Combine(targetLocation, sqlView.FileName);
+      try
 			{
-				using (var sw = new StreamWriter(File.Open(targetLocation + sqlView.FileName, FileMode.Create, FileAccess.Write)))
-				{
-					sw.Write(sqlView.FileContent);
-					sw.Close();
-				}
-				return true;
+			  if (!File.Exists(targetFileLocation))
+			  {
+			    using (var sw = new StreamWriter(File.Open(targetFileLocation, FileMode.Create, FileAccess.Write)))
+			    {
+			      sw.Write(sqlView.FileContent);
+			      sw.Close();
+			    }
+			    return true;
+        }
+			  return false;
 			}
 			catch (Exception)
 			{
@@ -75,8 +81,8 @@ namespace FileGenerator.Persistance
 						
 							schemaTableNames.Add(new Record
 							{
-								TableName = schemaTable.Values<string>("schema").ToString(),
-								SchemaName = schemaTable.Values<string>("table").ToString()
+								Table = schemaTable.Values<string>("schema").ToString(),
+								Schema = schemaTable.Values<string>("table").ToString()
 							});
 
 							return schemaTableNames;
